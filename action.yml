@@ -8,16 +8,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - run: cd $GITHUB_WORKSPACE &&
-    #        git clone https://github.com/Chandolkar001/test_github_actions.git &&
-    #        cd test_github_actions &&
-    #        mkdir actions
-    #   shell: bash
+    - run: cd $GITHUB_WORKSPACE &&
+           git clone https://github.com/Chandolkar001/test_github_actions.git &&
+           cd test_github_actions &&
+           mkdir actions
+      shell: bash
     - name: setup python
       uses: actions/setup-python@v3
       with:
         python-version: 3.9
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+    - run: cd $GITHUB_WORKSPACE && cd test_github_actions && 
+           python3 test.py ${{ inputs.who-to-greet }}
       shell: bash
-    - run: ls
-      shell: bash
+      name: run script
+      
