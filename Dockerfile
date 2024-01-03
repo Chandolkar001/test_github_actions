@@ -1,4 +1,4 @@
 FROM python:3.8-slim
-WORKDIR /app
-COPY . /app
-CMD ["./entrypoint.sh"]
+COPY entrypoint.sh /entrypoint.sh
+COPY app.py /app.py
+CMD ["/entrypoint.sh"]
