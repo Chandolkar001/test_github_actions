@@ -1,1 +1,1 @@
-FROM shreyas001/helloworld:v1
+FROM shreyas001/helloworld:latest
