@@ -1,5 +1,3 @@
-FROM alpine:3.10
-
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+FROM python:3.8-slim
+COPY app.py /app.py
+CMD ["python", "app.py"]
