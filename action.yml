@@ -11,8 +11,8 @@ outputs:
 runs:
   using: 'Docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+  # args:
+  #   - ${{ inputs.who-to-greet }}
   # using: "composite"
   # steps:
   #   - run: cd $GITHUB_WORKSPACE &&
