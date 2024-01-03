@@ -1,3 +1,4 @@
-#!/bin/bash
+#!/bin/sh -l
 
+echo "Hello"
 ls
