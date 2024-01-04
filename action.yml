@@ -10,7 +10,7 @@ outputs:
     description: 'the time we greeted!'
 runs:
   using: 'Docker'
-  image: 'Dockerfile'
+  image: 'docker://shreyas001/helloworld:latest'
   # args:
   #   - ${{ inputs.who-to-greet }}
   # using: "composite"
