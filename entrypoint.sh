@@ -2,15 +2,24 @@
 
 set -e
 
-while getopts "a:b:c" o; do
+while getopts "a:c:" o; do
     case "${o}" in
     a) 
-        name=${OPTARG}
-    ;;
+        name="${OPTARG}"
+        ;;
+    c)
+        custom_option="${OPTARG}"
+        ;;
+    *)
+        echo "Usage: $0 -a <name> -c <custom_option>"
+        exit 1
+        ;;
     esac
 done
 
-echo "Name : $name"
+# Additional processing if needed
+echo "Name: $name"
+echo "Custom Option: $custom_option"
 
-python /app/entrypoint.py "$name"
-
+# Call Python script with the provided name
+python script.py "$name"
