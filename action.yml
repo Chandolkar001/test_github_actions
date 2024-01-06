@@ -12,6 +12,6 @@ runs:
   using: 'Docker'
   image: 'Dockerfile'
   args:
-    - "-a ${{ inputs.who-to-great }}"
+    - "${{ inputs.who-to-great }}"
 
 
