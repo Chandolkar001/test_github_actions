@@ -22,4 +22,4 @@ echo "Name: $name"
 echo "Custom Option: $custom_option"
 
 # Call Python script with the provided name
-python script.py "$name"
+python /app/entrypoint.py "$name"
