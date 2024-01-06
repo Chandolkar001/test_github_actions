@@ -1,1 +1,5 @@
-FROM shreyas001/helloworld:v3
+FROM shreyas001/helloworld:latest
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]

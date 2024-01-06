@@ -1,4 +1,16 @@
 #!/bin/bash
 
-echo "Hello"
-ls
+set -e
+
+while getopts "a:b:c" o; do
+    case "${o}" in
+    a) 
+        name=${OPTARG}
+    ;;
+    esac
+done
+
+echo "Name : $name"
+
+python /app/entrypoint.py "$name"
+
