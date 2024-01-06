@@ -1,4 +1,6 @@
 #!/bin/sh -l
 
-echo "Name: $1"
-python /app/entrypoint.py "$1"
+echo "Hello $1"
+time=$(date)
+echo "time=$time" >> $GITHUB_OUTPUT
+
