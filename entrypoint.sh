@@ -2,4 +2,4 @@
 
 echo "Hello $1"
 python /app/entrypoint.py "$1"
-ls -l 
+cat /github/workspace/app.py
