@@ -1,5 +1,5 @@
 #!/bin/sh -l
 
-echo "Hello $1"
-python /app/entrypoint.py "$1"
-cat /github/workspace/app.py
+echo "Start"
+python /app/secretscan_entry.py "$1" "$2" "$3" "$4"
+
