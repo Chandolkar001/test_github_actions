@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-echo "Start process"
+echo "Start secret scan"
 cd ..
 cd ..
 ls
