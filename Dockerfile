@@ -4,6 +4,6 @@ COPY entrypoint.sh /entrypoint.sh
 
 COPY . /check
 
-CMD [ "ls", "-a" ]
+RUN ls
 
 ENTRYPOINT ["/entrypoint.sh"]
