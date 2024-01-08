@@ -4,6 +4,4 @@ COPY entrypoint.sh /entrypoint.sh
 
 COPY . /check
 
-RUN ls
-
 ENTRYPOINT ["/entrypoint.sh"]
