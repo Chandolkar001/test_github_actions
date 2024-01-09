@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 echo "Start scan"
-cd ../..
-cd app/
+cd ~/
+ls -a
 python secretscan_entry.py "$1" "$2" "$3" "$4"
 
