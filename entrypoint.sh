@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-echo "Start secret scan"
+echo "Start scan"
 cd ..
 cd ..
 echo "search for event.json"
