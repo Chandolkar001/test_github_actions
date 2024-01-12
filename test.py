@@ -1,140 +1,92 @@
-import sys
-import os
-import json
-import requests
 from tabulate import tabulate
-from detect_secrets import SecretsCollection
-from detect_secrets.settings import transient_settings
-from detect_secrets.settings import default_settings, get_settings
-from typing import List, Any
 
-class Validation:
-    def __init__(self, headers: dict = None, url: str = None, method: str = "get"):
-        self.headers = headers
-        self.url = url
-        self.method = method
+data = [
+  {
+    'data': [
+      {
+        'commitHash': '123456',
+        'branch': 'main',
+        'message': 'User controlled data in methods like `innerHTML`, `outerHTML` or `document.write` is an anti-pattern that can lead to XSS vulnerabilities',
+        'path': 'test.js',
+        'lines': "document.write('<p>' + userInputXSS + '</p>');",
+        'engine': 'OSS',
+        'vulnerabilityClass': [
+          'A07:2017 - Cross-Site Scripting (XSS)',
+          'A03:2021 - Injection'
+        ],
+        'start': {
+          'col': 1,
+          'line': 15,
+          'offset': 407
+        },
+        'end': {
+          'col': 46,
+          'line': 15,
+          'offset': 452
+        },
+        'codeBlock': "// Example 3: XSS (Cross-Site Scripting)\nconst userInputXSS = process.argv[4];\ndocument.write('<p>' + userInputXSS + '</p>');\n\n// Example 4: Insecure Password Handling\n"
+      }
+    ],
+    'rule': 'github_javascript.browser.security.insecure-document-method.insecure-document-method',
+    'status': 'success',
+    'result': 'failure'
+  },
+  {
+    'data': [
+      {
+        'commitHash': '123456',
+        'branch': 'main',
+        'message': 'It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function such as bcrypt. You can use the `bcrypt` node.js package.',
+        'path': 'test.js',
+        'lines': "const weakHash = (password) => crypto.createHash('md5').update(password).digest('hex');",
+        'engine': 'OSS',
 
-    def parse_headers(self, secret):
-        for key in self.headers:
-            self.headers[key] = self.headers[key].replace("{secret}", secret)
+        'start': {
+          'col': 29,
+          'line': 23,
+          'offset': 693
+        },
+        'end': {
+          'col': 87,
+          'line': 23,
+          'offset': 751
+        },
+        'codeBlock': "// Example 5: Use of weak cryptographic function\nconst crypto = require('crypto');\nconst weakHash = (password) => crypto.createHash('md5').update(password).digest('hex');\nconst userPasswordHashed = process.argv[6];\nconsole.log('Hashed Password:', weakHash(userPasswordHashed));\n"
+      }
+    ],
+    'rule': 'github_javascript.lang.security.audit.md5-used-as-password.md5-used-as-password',
+    'status': 'success',
+    'result': 'failure'
+  }
+]
 
-    def validate(self, secret):
-        self.parse_headers(secret)
-        if self.method.lower() == "post":
-            response = requests.post(url=self.url, headers=self.headers)
+def print_table_for_vs(data):
+    table_data = []
+    for item in data:
+        vulnerability_data = item.get('data', [])
+
+        # Check if data is not an empty list and has at least one element
+        if vulnerability_data:
+            vulnerability = vulnerability_data[0]
+
+            commit_hash = vulnerability.get('commitHash', 'N/A')
+            branch = vulnerability.get('branch', 'N/A')
+            path = vulnerability.get('path', 'N/A')
+            message = vulnerability.get('message', 'N/A')
+            vclass = ', '.join(vulnerability.get('vulnerabilityClass', []))
+            rule = item.get('rule', 'N/A')
+            status = item.get('status', 'N/A')
+            result = item.get('result', 'N/A')
+
+            table_data.append([commit_hash, branch, path, message, vclass, rule, status, result])
         else:
-            response = requests.get(url=self.url, headers=self.headers)
-        if response.status_code == 200:
-            return True
-        return False
+            # Handle the case where 'data' key is not present or is an empty list
+            table_data.append(['N/A'] * 8)
 
 
-def get_file_mapping():
-    root_dir = "actions"
-    file_map = dict()
+    headers = ['Commit Hash', 'Branch', 'Path', 'Message', 'Vulnerability Class', 'Rule', 'Status', 'Result']
+    max_col_width = 30
+    print(tabulate(table_data, headers=headers, tablefmt='grid', maxcolwidths=max_col_width))
+    
 
-    for dir_, _, files in os.walk(root_dir):
-        for file_name in files:
-            path = os.path.join(dir_, file_name)
-            mapping_path = os.path.relpath(path, root_dir)
-            file_map[path] = mapping_path
-    return file_map
-
-
-def get_config():
-    plugins_used = []
-    regexes = []
-    with default_settings():
-        plugins = list(get_settings().plugins.keys())
-        for plugin in plugins:
-            plugins_used.append({'name': plugin})
-
-    with open('default_regexes.json', 'r') as file:
-        default_regex = json.load(file)
-    regexes = regexes + default_regex['patterns']
-
-    for i in regexes:
-        val = repr(i['regex'])[1:-1]
-        i['regex'] = val
-
-    mapping = {}
-    with open('validations_mapping.json') as file:
-        mapping = json.load(file)
-    validations = []
-
-    for name in mapping:
-        val = Validation(headers=mapping[name]["headers"], url=mapping[name]["url"], method=mapping[name]["method"])
-        pair = {"name": name, "function": val.validate}
-        validations.append(pair)
-    config = {
-        'plugins_used': plugins_used,
-        'custom_regex': regexes,
-        'verify': validations,
-        'filters_used': [
-            {"path": "detect_secrets.filters.common.is_ignored_due_to_verification_policies",
-             "min_level": 1,
-             }
-        ]
-    }
-    return config
-
-def get_commit_sha():
-    return os.environ["GITHUB_SHA"]
-
-
-def get_branch():
-    return os.environ["GITHUB_REF_NAME"]
-
-def parse_secrets(secrets: Any) -> list:
-    new_secrets = []
-    secrets = secrets.json()
-    for group in secrets:
-        for secret in secrets[group]:
-            new_secret = {
-                "commitHash": secret['commit'],
-                "fileName": secret['filename'],
-                "lineNumber": secret['line_number'],
-                "regex": secret['type'],
-                "hashedValue": secret['hashed_secret'],
-                "isHashedValueSkipped": secret['notify'],
-                "branch": secret['branch'],
-            }
-            if secret["is_verified"]:
-                new_secret["isVerified"] = True
-                new_secret["isValid"] = True
-            elif not secret["is_verified"]:
-                new_secret["isVerified"] = True
-                new_secret["isValid"] = False
-            else:
-                new_secret["isVerified"] = False
-                new_secret["isValid"] = None
-            
-            new_secrets.append(new_secret)
-
-    return new_secrets
-
-def print_table(secrets):
-    display_headers = ["Commit SHA", "File Name", "Line Number", "Plugin", "Is Verified", "Is Valid"]
-    table_data = [[entry["commitHash"], entry["fileName"], entry["lineNumber"], entry["regex"], entry["isVerified"], entry["isValid"]] for entry in secrets]
-    table = tabulate(table_data, headers=display_headers, tablefmt='grid')
-    print(table)
-
-if __name__ == '__main__':
-    secret_collection = SecretsCollection()
-    config = get_config()
-    commit_id = get_commit_sha()
-    branch = get_branch()
-    file_mapping = get_file_mapping()
-
-    with transient_settings(config=config):
-        new_secret = SecretsCollection()
-        new_secret.scan_files(*(file_mapping.keys()))
-        new_secret.rename_files(filelist=file_mapping)
-        new_secret.add_commit(commit_id)
-        new_secret.add_branch(branch)
-        all_secrets = parse_secrets(new_secret)
-        if all_secrets:
-            print(f"Branch: {branch}")
-            print_table(all_secrets)
-        else:
-            print("No Secrets Detected")
+print_table_for_vs(data)
