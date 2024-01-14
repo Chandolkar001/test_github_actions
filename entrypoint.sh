@@ -25,5 +25,5 @@ done
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo "Start scan"
-python action_entrypoint.py --type "$SCAN_TYPE" --file "$FILE_EXCLUSIONS" --regex "$REGEX_EXCLUSIONS" --hash "$HASH_EXCLUSIONS" --cregex "$CUSTOM_REGEX" --code "$CLIENT_REPO"
+python action_entrypoint.py --type "$SCAN_TYPE" --code "$CLIENT_REPO"
 
