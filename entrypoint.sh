@@ -2,7 +2,7 @@
 
 echo "Reading Parameters"
 
-while getopts ":a:b:c:d:e:" opt; do
+while getopts ":a:b:c:d:e:z:" opt; do
   case $opt in
     a)
       export SCAN_TYPE="$OPTARG"
@@ -19,10 +19,13 @@ while getopts ":a:b:c:d:e:" opt; do
     e)
       export CUSTOM_REGEX="$OPTARG"
       ;;
+    z)
+      export TEST_VAL="$OPTARG"
+      ;;
   esac
 done
 
-echo "$secrets.TEST_SECRET"
+echo $TEST_VAL
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $SCAN_TYPE
