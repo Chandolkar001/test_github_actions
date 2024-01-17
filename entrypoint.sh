@@ -25,9 +25,10 @@ while getopts ":a:b:c:d:e:z:" opt; do
   esac
 done
 
-echo $TEST_VAL
+export tp=$TEST_VAL
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
+echo $tp
 echo $SCAN_TYPE
 echo "Start scan"
 python action_entrypoint.py --type "$SCAN_TYPE" --code "$CLIENT_REPO"
