@@ -22,6 +22,7 @@ while getopts ":a:b:c:d:e:" opt; do
   esac
 done
 
+echo "$secrets.TEST_SECRET"
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $SCAN_TYPE
