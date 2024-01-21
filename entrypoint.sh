@@ -25,7 +25,7 @@ while getopts ":a:b:c:d:e:z:" opt; do
   esac
 done
 
-export tp=$TEST_VAL
+echo $TEST_SECRET
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $tp
