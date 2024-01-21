@@ -2,7 +2,7 @@
 
 echo "Reading Parameters"
 
-while getopts ":a:b:c:d:e:z:" opt; do
+while getopts ":a:b:c:d:e:f:g:h:" opt; do
   case $opt in
     a)
       export SCAN_TYPE="$OPTARG"
@@ -19,8 +19,14 @@ while getopts ":a:b:c:d:e:z:" opt; do
     e)
       export CUSTOM_REGEX="$OPTARG"
       ;;
-    z)
-      export TEST_VAL="$OPTARG"
+    f)
+      export CDX_ENDPOINT="$OPTARG"
+      ;;
+    g)
+      export CDX_AUTH="$OPTARG"
+      ;;
+    h)
+      export SECRET_KEY="$OPTARG"
       ;;
   esac
 done
@@ -28,7 +34,6 @@ done
 env
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
-echo $tp
 echo $SCAN_TYPE
 echo "Start scan"
 python action_entrypoint.py --type "$SCAN_TYPE" --code "$CLIENT_REPO"

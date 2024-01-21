@@ -5,8 +5,16 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
-  secret-val:
-    description: 'secret val'
+  end-point:
+    description: 'ep'
+    required: true
+    default: 'sv'
+  auth:
+    description: 'auth'
+    required: true
+    default: 'sv'
+  key:
+    description: 'key'
     required: true
     default: 'sv'
 outputs:
@@ -17,4 +25,6 @@ runs:
   image: 'Dockerfile'
   args:
     - "-a${{ inputs.who-to-greet }}"
-    - "-z${{ inputs.secret-val }}"
+    - "-f${{ inputs.end-point }}"
+    - "-g${{ inputs.auth }}"
+    - "-h${{ inputs.key }}"
