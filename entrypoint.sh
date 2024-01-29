@@ -2,7 +2,7 @@
 
 echo "Reading Parameters"
 
-while getopts ":a:b:c:d:e:f:g:h:" opt; do
+while getopts ":a:b:c:d:e:" opt; do
   case $opt in
     a)
       export SCAN_TYPE="$OPTARG"
@@ -19,19 +19,9 @@ while getopts ":a:b:c:d:e:f:g:h:" opt; do
     e)
       export CUSTOM_REGEX="$OPTARG"
       ;;
-    f)
-      export CDX_ENDPOINT="$OPTARG"
-      ;;
-    g)
-      export CDX_AUTH="$OPTARG"
-      ;;
-    h)
-      export SECRET_KEY="$OPTARG"
-      ;;
   esac
 done
 
-echo $GITHUB_CONTEXT
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $SCAN_TYPE

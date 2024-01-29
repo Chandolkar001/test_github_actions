@@ -5,26 +5,8 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
-  end-point:
-    description: 'ep'
-    required: true
-    default: 'sv'
-  auth:
-    description: 'auth'
-    required: true
-    default: 'sv'
-  key:
-    description: 'key'
-    required: true
-    default: 'sv'
-outputs:
-  time: 
-    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - "-a${{ inputs.who-to-greet }}"
-    - "-f${{ inputs.end-point }}"
-    - "-g${{ inputs.auth }}"
-    - "-h${{ inputs.key }}"
