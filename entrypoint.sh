@@ -31,7 +31,7 @@ while getopts ":a:b:c:d:e:f:g:h:" opt; do
   esac
 done
 
-env
+echo $GITHUB_CONTEXT
 export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $SCAN_TYPE
