@@ -5,8 +5,12 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
+  event:
+    description: 'event'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - "-a${{ inputs.who-to-greet }}"
+    - "-b${{ inputs.event }}"
