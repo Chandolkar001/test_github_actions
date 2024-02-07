@@ -26,5 +26,7 @@ export CLIENT_REPO=$GITHUB_WORKSPACE
 cd /app
 echo $SCAN_TYPE
 echo "Start scan"
+text="This is a Warning"
+echo "::warning file=app.py,line=1,col=5::$text"
 python action_entrypoint.py --type "$SCAN_TYPE"
 
