@@ -8,7 +8,7 @@ while getopts ":a:b:" opt; do
       export SCAN_TYPE="$OPTARG"
       ;;
     b) 
-      export $GITHUB_CONTEXT="$OPTARG"
+      export GITHUB_CONTEXT="$OPTARG"
       ;;
   esac
 done
