@@ -1,16 +1,27 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  
-    description: 'Who to greet'
+  who-to-greet:
+    description: ""
     required: true
-    default: 'World'
-  event:
-    description: 'event'
-    required: false
+    default: "secret-scan"
+  github-context:
+    description: ""
+    required: true
+    default: ""
+  auth-token:
+    description: ""
+    required: true
+    default: ""
+  api-endpoint:
+    description: ""
+    required: true
+    default: ""
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - "-a${{ inputs.who-to-greet }}"
-    - "-b${{ inputs.event }}"
+    - "-b${{ inputs.github-context }}"
+    - "-c${{ inputs.auth-token }}"
+    - "-d${{ inputs.api-endpoint }}"
