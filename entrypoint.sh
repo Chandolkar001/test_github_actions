@@ -21,5 +21,6 @@ done
 
 export CLIENT_REPO=$GITHUB_WORKSPACE
 echo "Start scan"
+ls
 ./action_entrypoint
 
