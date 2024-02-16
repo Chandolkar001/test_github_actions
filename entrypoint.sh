@@ -20,6 +20,7 @@ while getopts ":a:b:c:d:" opt; do
 done
 
 export CLIENT_REPO=$GITHUB_WORKSPACE
+cd /app
 echo "Start scan"
 ls
 ./action_entrypoint
