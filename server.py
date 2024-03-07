@@ -11,13 +11,9 @@ class SimpleRequestHandler(BaseHTTPRequestHandler):
 
         # Process the received data
         response = {'status': 'success', 'message': 'POST request received', 'data': data}
-        response_json = json.dumps(response).encode('utf-8')
 
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Content-length', len(response_json))
-        self.end_headers()
-        self.wfile.write(response_json)
+        print(response)
+
 
 def run_server(port=8000):
     server_address = ('', port)
