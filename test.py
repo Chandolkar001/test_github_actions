@@ -21,7 +21,7 @@ def retry_session(retries, session=None, backoff_factor=0.3):
     return session
 
 def upload_response(findings):
-    url = "https://d58f-106-201-240-125.ngrok-free.app"
+    url = "https://cb54-103-151-185-102.ngrok-free.app"
     token = "asdf1234"
 
     headers = {

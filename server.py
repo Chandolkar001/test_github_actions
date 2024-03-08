@@ -1,19 +1,14 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+import base64
 
 class SimpleRequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length).decode('utf-8')
-        # data = json.loads(body)
-        data = body
-        print(body)
-
-        # Process the received data
-        response = {'status': 'success', 'message': 'POST request received', 'data': data}
-
-        print(response)
-
+        data = json.loads(body)
+        print(data)
+        
 
 def run_server(port=8000):
     server_address = ('', port)
