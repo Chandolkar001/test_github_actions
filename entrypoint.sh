@@ -5,7 +5,7 @@ echo "Reading Parameters"
 while getopts ":a:b:c:d:" opt; do
   case $opt in
     a)
-      export SCAN_TYPE="$OPTARG"
+      export TYPE_OF_SCAN="$OPTARG"
       ;;
     b) 
       export GITHUB_CONTEXT="$OPTARG"
@@ -19,7 +19,6 @@ while getopts ":a:b:c:d:" opt; do
   esac
 done
 
-echo $SCAN_TYPE
 export CLIENT_REPO=$GITHUB_WORKSPACE
 export SERVICE=github
 cd /app
