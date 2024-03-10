@@ -1,4 +1,4 @@
-FROM shreyas001/helloworld:v9
+FROM shreyas001/helloworld:v8
 
 COPY entrypoint.sh /entrypoint.sh
 
