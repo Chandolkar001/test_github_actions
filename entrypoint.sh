@@ -19,6 +19,7 @@ while getopts ":a:b:c:d:" opt; do
   esac
 done
 
+echo $SCAN_TYPE
 export CLIENT_REPO=$GITHUB_WORKSPACE
 export SERVICE=github
 cd /app
