@@ -17,6 +17,10 @@ inputs:
     description: ""
     required: true
     default: ""
+  debug:
+    description: ""
+    required: false
+    default: "false"
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -25,3 +29,4 @@ runs:
     - "-b${{ inputs.github-context }}"
     - "-c${{ inputs.auth-token }}"
     - "-d${{ inputs.api-endpoint }}"
+    - "-e${{ inputs.debug }}"

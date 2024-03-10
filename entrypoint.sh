@@ -2,7 +2,7 @@
 
 echo "Reading Parameters"
 
-while getopts ":a:b:c:d:" opt; do
+while getopts ":a:b:c:d:e:" opt; do
   case $opt in
     a)
       export TYPE_OF_SCAN="$OPTARG"
@@ -15,6 +15,9 @@ while getopts ":a:b:c:d:" opt; do
       ;;
     d) 
       export API_ENDPOINT="$OPTARG"
+      ;;
+    e)
+      export DEBUG="$OPTARG"
       ;;
   esac
 done
