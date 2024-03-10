@@ -24,6 +24,7 @@ done
 
 export CLIENT_REPO=$GITHUB_WORKSPACE
 export SERVICE=github
+echo $DEBUG
 cd /app
 echo "Start scan"
 ./action_entrypoint
